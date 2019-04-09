@@ -8,7 +8,7 @@ File:	prog.c
 Usage:	Dynamic virtual machine programs.
 ----------------------------------------------------------------------------- */
 
-#include "vm.h"
+#include "phosphor.h"
 
 typedef struct
 {

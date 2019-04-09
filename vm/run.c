@@ -8,7 +8,7 @@ File:	run.c
 Usage:	Dynamic virtual machine execution.
 ----------------------------------------------------------------------------- */
 
-#include "vm.h"
+#include "phosphor.h"
 
 static void dump_stack( parray* stack )
 {

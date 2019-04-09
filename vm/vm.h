@@ -8,8 +8,6 @@ File:	vm.h
 Usage:	Dynamic single-stack virtual machine
 ----------------------------------------------------------------------------- */
 
-#include "phorward.h"
-
 /* Typedefs */
 typedef struct _pvm 	pvm;
 typedef struct _pvmprog	pvmprog;
@@ -51,6 +49,4 @@ struct _pvmexec
 	pvmbyte*	ecs;						/* Code segment limit */
 	pvmbyte*	ip;							/* Instruction ptr */
 };
-
-#include "proto.h"
 

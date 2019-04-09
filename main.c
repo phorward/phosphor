@@ -8,7 +8,7 @@ File:	pvm.c
 Usage:	A pvm/pany object demonstration suite.
 ----------------------------------------------------------------------------- */
 
-#include "vm.h"
+#include "phosphor.h"
 
 /* Main */
 
@@ -48,7 +48,7 @@ int main( int argc, char** argv )
 	int			next;
 	char		opt		[ 20 + 1 ];
 	char*		param;
-	pany*		ret;
+	pany*		ret		= (pany*)NULL;
 
 	pboolean	verbose	= FALSE;
 

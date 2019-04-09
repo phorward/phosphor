@@ -8,7 +8,7 @@ File:	vm.c
 Usage:	Dynamic virtual machine definition.
 ----------------------------------------------------------------------------- */
 
-#include "vm.h"
+#include "phosphor.h"
 
 /* Basic VM instructions */
 static void pvm_DIM( pvmexec* rt )
