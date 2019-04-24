@@ -1,6 +1,7 @@
-AWK			= awk
-CFLAGS    	= -g -I. -I../phorward/src -DUTF8 -DUNICODE -DDEBUG -Wall $(CLOCAL)
-LIBPHORWARD	= ../phorward/src/libphorward.a
+AWK	= awk
+CFLAGS = -g -I. -I../phorward/src -DUTF8 -DUNICODE -DDEBUG -Wall $(CLOCAL)
+LDFLAGS	= -lphorward
+LD_LIBRARY_PATH = ../phorward/src
 
 HEADERS		= \
 			any/any.h \
@@ -24,14 +25,11 @@ OBJECTS		= $(patsubst %.c,%.o,$(SOURCES))
 
 all: pvm
 
+pvm: $(HEADERS) $(OBJECTS)
+	cc -o $@ $(OBJECTS) $(LDFLAGS)
+
 proto.h: $(SOURCES)
 	pproto $(SOURCES) >$@
-
-pvm: $(HEADERS) $(OBJECTS) $(LIBPHORWARD)
-	$(CC) -g -o $@ $(OBJECTS) $(LIBPHORWARD)
-
-test: pvm
-	./pparse json.bnf bla.json
 
 clean:
 	-rm $(OBJECTS)
@@ -56,4 +54,8 @@ any/any.conv.c: any/any.h any/any.gen.awk
 
 any/any.print.c: any/any.h any/any.gen.awk
 	$(AWK) -f any/any.gen.awk -vwith_fprint=1 any/any.h >$@
+
+# Test suite
+test: all
+	CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" ptest -v $(SOURCES)
 

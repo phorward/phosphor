@@ -10,6 +10,20 @@ Usage:	pany implements a universal data type object, which can hold any of
 		generic C type.
 ----------------------------------------------------------------------------- */
 
+/*
+ * The pany object, implements a union data type storage.
+
+ * A union type is a variable which is capable to store different values, by
+ * using a type flag, but only one memory store.
+ *
+ * The pany-data type and its support functions allows to store byte, char, int,
+ * long, unsigned long (ulong), float, double, string (char*) and wide-character
+ * string (wchar_t*) and their conversion among each other.
+ *
+ * String memory is always hold with the pany-object, until the structure is
+ * converted into another type or freed.
+ */
+
 #include "phosphor.h"
 
 /** Initializes a pany-element.
@@ -255,3 +269,43 @@ pany* pany_dup( pany* src )
 
 	return dest;
 }
+
+/*TESTCASE:pany
+#include "phosphor.h"
+
+void any_demo( void )
+{
+	pany*	val;
+
+	\* Get new any object, with a string. *\
+	val = pany_create( "123 Hello World" );
+
+	\* Get the string *\
+	printf( "val(str) = >%s<\n", pany_get_str( val ) );
+
+	\* Get the string as wide-character value. *\
+	printf( "val(wcs) = >%ls<\n", pany_get_wcs( val ) );
+
+	\* The the string as integer value - only 123 will be returned! *\
+	printf( "val(int) = %d\n", pany_get_int( val ) );
+
+	\* Reset the value by a floating point number *\
+	pany_set_double( val, 123.456 );
+
+	printf( "val(double) = %lf\n", pany_get_double( val ) );
+	printf( "val(str) = >%s<\n", pany_get_str( val ) );
+	printf( "val(bool) = %d\n", pany_get_bool( val ) );
+	printf( "val(str) = %s\n", pany_get_str( val ) );
+
+	\* Free that object *\
+	val = pany_free( val );
+}
+---
+val(str) = >123 Hello World<
+val(wcs) = >123 Hello World<
+val(int) = 123
+val(double) = 123.456000
+val(str) = >123.456<
+val(bool) = 1
+val(str) = TRUE
+*/
