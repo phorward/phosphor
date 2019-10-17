@@ -22,6 +22,12 @@ static void pvm_DIM( pvmexec* rt )
 		parray_malloc( rt->stack );
 }
 
+static void pvm_DUP( pvmexec* rt )
+{
+	pany_copy( (pany*)parray_push( rt->stack, (void*)NULL ),
+					(pany*)parray_rget( rt->stack, 1 ) );
+}
+
 static void pvm_DRP( pvmexec* rt )
 {
 	pany*		amt;
@@ -45,7 +51,7 @@ static void pvm_JPC( pvmexec* rt )
 	addr = (pany*)parray_pop( rt->stack );
 
 	if( pany_get_bool( (pany*)parray_pop( rt->stack ) ) )
-		rt->ip = (pvmbyte*)pany_get_ptr( addr );
+		rt->ip = rt->cs + (pvmaddr)pany_get_ptr( addr );
 }
 
 static void pvm_BOOL( pvmexec* rt )
@@ -307,6 +313,11 @@ static void pvm_JOIN( pvmexec* rt )
 	parray_push( rt->stack, (void*)NULL );
 }
 
+static void pvm_PRINT( pvmexec* rt )
+{
+	pany_fprint( stdout, (pany*)parray_pop( rt->stack ) );
+}
+
 /** Initializes the virtual machine //vm//. */
 pvm* pvm_init( pvm* vm )
 {
@@ -320,6 +331,7 @@ pvm* pvm_init( pvm* vm )
 
 	/* Implement default instruction set */
 	pvm_define( vm, "dim", pvm_DIM );
+	pvm_define( vm, "dup", pvm_DUP );
 	pvm_define( vm, "drp", pvm_DRP );
 	pvm_define( vm, "jmp", pvm_JMP );
 	pvm_define( vm, "jpc", pvm_JPC );
@@ -336,6 +348,8 @@ pvm* pvm_init( pvm* vm )
 	pvm_define( vm, "div", pvm_DIV );
 
 	pvm_define( vm, "join", pvm_JOIN );
+
+	pvm_define( vm, "print", pvm_PRINT );
 
 	return vm;
 }

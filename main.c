@@ -39,6 +39,7 @@ void help( char** argv )
 int main( int argc, char** argv )
 {
 	char*		prog	= (char*)NULL;
+	char*		pfile	= (char*)NULL;
 	char		line	[ 128 + 1 ];
 	char		buf		[ 1024 + 1 ];
 	pvm*		vm;
@@ -74,7 +75,11 @@ int main( int argc, char** argv )
 
 	if( rc == 1 && param )
 	{
-		prog = param;
+		if( pfiletostr( &prog, param ) )
+			pfile = param;
+		else
+			prog = param;
+
 		next++;
 	}
 
@@ -113,7 +118,6 @@ int main( int argc, char** argv )
 					break;
 
 				strcat( buf, line );
-				strcat( buf, "\n" );
 			}
 
 			if( !*buf )
@@ -129,10 +133,17 @@ int main( int argc, char** argv )
 			if( toupper( getchar() ) == 'N' )
 				continue;
 
-			pvm_prog_run( (pany**)NULL, p );
+			pvm_prog_run( &ret, p );
+
+			if( ret )
+				pany_fprint( stdout, ret );
+
 			pvm_prog_free( p );
 		}
 	}
+
+	if( pfile )
+		pfree( prog );
 
 	RETURN( ret ? pany_get_char( ret ) : 0 );
 }

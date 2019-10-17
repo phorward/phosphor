@@ -27,23 +27,23 @@ pboolean pany_to_bool( pany* val )
 		case PANYTYPE_BOOL:
 			RETURN( val->val.b );
 		case PANYTYPE_CHAR:
-			RETURN( (pboolean)TRUEBOOLEAN( val->val.c ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( val->val.c ) );
 		case PANYTYPE_INT:
-			RETURN( (pboolean)TRUEBOOLEAN( val->val.i ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( val->val.i ) );
 		case PANYTYPE_LONG:
-			RETURN( (pboolean)TRUEBOOLEAN( val->val.l ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( val->val.l ) );
 		case PANYTYPE_ULONG:
-			RETURN( (pboolean)TRUEBOOLEAN( val->val.ul ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( val->val.ul ) );
 		case PANYTYPE_FLOAT:
-			RETURN( (pboolean)TRUEBOOLEAN( val->val.f ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( val->val.f ) );
 		case PANYTYPE_DOUBLE:
-			RETURN( (pboolean)TRUEBOOLEAN( val->val.d ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( val->val.d ) );
 		case PANYTYPE_STR:
-			RETURN( (pboolean)TRUEBOOLEAN( *pstrget( val->val.s ) ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( *pstrget( val->val.s ) ) );
 		case PANYTYPE_WCS:
-			RETURN( (pboolean)TRUEBOOLEAN( *pwcsget( val->val.ws ) ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( *pwcsget( val->val.ws ) ) );
 		case PANYTYPE_PTR:
-			RETURN( (pboolean)TRUEBOOLEAN( val->val.ptr ) );
+			RETURN( (pboolean)MAKE_BOOLEAN( val->val.ptr ) );
 
 		default:
 			break;

@@ -1,0 +1,16 @@
+10
+%loop
+dup
+#start
+jpc
+#end
+jmp
+%start
+dup
+print
+dup
+1
+sub
+#loop
+jmp
+%end

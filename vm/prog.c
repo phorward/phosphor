@@ -26,7 +26,7 @@ pvmprog* pvm_prog_create( pvm* vm, char* src )
 	prog->vm = vm;
 	parray_init( &prog->prog, sizeof( pvmbyte ), 0 );
 	parray_init( &prog->lit, sizeof( pany ), 0 );
-	plist_init( &prog->label, sizeof( pvmlabel ), PLIST_DFT_HASHSIZE,
+	plist_init( &prog->label, sizeof( pvmlabel ),
 					PLIST_MOD_RECYCLE | PLIST_MOD_UNIQUE );
 
 	if( src && *src )
@@ -106,7 +106,7 @@ pboolean pvm_prog_compile( pvmprog* prog, char* src )
 		lit = (pany*)NULL;
 		start = plex_next( prog->vm->lex, start, &tok, &end );
 
-		/* fprintf( stderr, "%d >%.*s<\n", tok, end - start, start ); */
+		fprintf( stderr, "%d >%.*s<\n", tok, end - start, start );
 		if( end - start < BUFSIZ )
 		{
 			sprintf( buf, "%.*s", (int)( end - start ), start );

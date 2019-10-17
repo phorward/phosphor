@@ -90,8 +90,8 @@ void pvm_prog_run( pany** ret, pvmprog* prog )
 
 	if( ret )
 	{
-		memcpy( stack.array, parray_first( rt.stack ), sizeof( pany ) );
-		*ret = stack.array;
+		memcpy( stack.start, parray_first( rt.stack ), sizeof( pany ) );
+		*ret = stack.start;
 	}
 	else
 		parray_erase( &stack );

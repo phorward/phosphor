@@ -1,13 +1,15 @@
 AWK	= awk
-CFLAGS = -g -I. -I../phorward/src -DUTF8 -DUNICODE -DDEBUG -Wall $(CLOCAL)
-LDFLAGS	= -lphorward
-LD_LIBRARY_PATH = ../phorward/src
+CFLAGS = -g -I. -DUTF8 -DUNICODE -DDEBUG -Wall $(CLOCAL)
 
 HEADERS		= \
+			lib/phorward.h \
 			any/any.h \
 			vm/vm.h \
 			phosphor.h \
 			proto.h
+
+PHORWARD	= \
+			lib/phorward.c
 
 SOURCES   	=	\
 			any/any.c \
@@ -21,7 +23,7 @@ SOURCES   	=	\
 			\
 			main.c
 
-OBJECTS		= $(patsubst %.c,%.o,$(SOURCES))
+OBJECTS		= $(patsubst %.c,%.o,$(PHORWARD)) $(patsubst %.c,%.o,$(SOURCES))
 
 all: pvm
 
@@ -29,7 +31,7 @@ pvm: $(HEADERS) $(OBJECTS)
 	cc -o $@ $(OBJECTS) $(LDFLAGS)
 
 proto.h: $(SOURCES)
-	pproto $(SOURCES) >$@
+	lib/pproto $(SOURCES) >$@
 
 clean:
 	-rm $(OBJECTS)
@@ -57,5 +59,5 @@ any/any.print.c: any/any.h any/any.gen.awk
 
 # Test suite
 test: all
-	CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" LD_LIBRARY_PATH="$(LD_LIBRARY_PATH)" ptest -v $(SOURCES)
+	lib/ptest -v $(SOURCES)
 
